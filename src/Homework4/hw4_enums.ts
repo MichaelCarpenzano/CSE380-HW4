@@ -8,4 +8,5 @@ export enum HW4_Events {
     PLAYER_ENTERED_LEVEL_END = "PlayerEnteredLevelEnd",
     LEVEL_START = "LevelStart",
     LEVEL_END = "LevelEnd",
+    PLAYER_DIED = "PLayerDied",
 }

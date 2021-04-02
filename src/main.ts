@@ -16,7 +16,7 @@ import MainMenu from "./Homework4/Scenes/MainMenu";
             {name: "jump", keys: ["w", "space"]},
             {name: "run", keys: ["shift"]}
         ],
-        useWebGL: true,                        // Tell the game we want to use webgl
+        useWebGL: false,                        // Tell the game we want to use webgl
         showDebug: true                      // Whether to show debug messages. You can change this to true if you want
     }
 

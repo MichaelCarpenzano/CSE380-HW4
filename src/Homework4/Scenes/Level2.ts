@@ -10,16 +10,8 @@ export default class Level2 extends GameLevel {
      * Not all of these loads are needed. Decide which to remove and handle keeping resources in Level1
      */
     loadScene(): void {
-        this.load.image("background", "hw4_assets/sprites/2bitbackground.png");
-        this.load.image("coin", "hw4_assets/sprites/coin.png");
         this.load.tilemap("level2", "hw4_assets/tilemaps/level2.json");
-        this.load.spritesheet("player", "hw4_assets/spritesheets/platformPlayer.json");
-        this.load.spritesheet("hopper", "hw4_assets/spritesheets/hopper.json");
-        this.load.spritesheet("bunny", "hw4_assets/spritesheets/ghostBunny.json");
         this.load.spritesheet("spikeball", "hw4_Assets/spritesheets/spikeball.json");
-        this.load.audio("jump", "hw4_assets/sounds/jump.wav");
-        this.load.audio("coin", "hw4_assets/sounds/coin.wav");
-        this.load.audio("player_death", "hw4_assets/sounds/player_death.wav");
     }
 
     startScene(): void {

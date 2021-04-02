@@ -11,6 +11,7 @@ export default class Level1 extends GameLevel {
         this.load.image("coin", "hw4_assets/sprites/coin.png");
         this.load.tilemap("level1", "hw4_assets/tilemaps/level1.json");
         this.load.spritesheet("player", "hw4_assets/spritesheets/platformPlayer.json");
+        this.load.spritesheet("spikeball", "hw4_assets/spritesheets/spikeball.json")
         this.load.spritesheet("hopper", "hw4_assets/spritesheets/hopper.json");
         this.load.spritesheet("bunny", "hw4_assets/spritesheets/ghostBunny.json");
         this.load.audio("jump", "hw4_assets/sounds/jump.wav");
@@ -32,6 +33,15 @@ export default class Level1 extends GameLevel {
      */
     unloadScene(){
         // Keep resources - this is up to you
+        this.load.image("background", "hw4_assets/sprites/2bitbackground.png");
+        this.load.image("coin", "hw4_assets/sprites/coin.png");
+        this.load.spritesheet("player", "hw4_assets/spritesheets/platformPlayer.json");
+        this.load.spritesheet("spikeball", "hw4_assets/spritesheets/spikeball.json")
+        this.load.spritesheet("hopper", "hw4_assets/spritesheets/hopper.json");
+        this.load.spritesheet("bunny", "hw4_assets/spritesheets/ghostBunny.json");
+        this.load.audio("jump", "hw4_assets/sounds/jump.wav");
+        this.load.audio("coin", "hw4_assets/sounds/coin.wav");
+        this.load.audio("player_death", "hw4_assets/sounds/player_death.wav");
     }
 
     startScene(): void {
@@ -56,8 +66,14 @@ export default class Level1 extends GameLevel {
 
         // Add enemies of various types
         for(let pos of [new Vec2(24, 18)]){
+            this.addEnemy("spikeball", pos, {});
+        }
+
+        /*
+        for(let pos of [new Vec2(24, 18)]){
             this.addEnemy("bunny", pos, {});
         }
+        */
 
         for(let pos of [new Vec2(51, 17)]){
             this.addEnemy("hopper", pos, {jumpy: true});

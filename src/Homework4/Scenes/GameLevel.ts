@@ -137,6 +137,14 @@ export default class GameLevel extends Scene {
                     }
                     break;
 
+                case HW4_Events.PLAYER_DIED:
+                    {
+                        this.incPlayerLife(-1);
+                        this.respawnPlayer();
+                        this.player.enablePhysics();
+                    }
+                    break;
+
                 case HW4_Events.ENEMY_DIED:
                     {
                         // An enemy finished its dying animation, destroy it
@@ -225,7 +233,8 @@ export default class GameLevel extends Scene {
             HW4_Events.ENEMY_DIED,
             HW4_Events.PLAYER_ENTERED_LEVEL_END,
             HW4_Events.LEVEL_START,
-            HW4_Events.LEVEL_END
+            HW4_Events.LEVEL_END,
+            HW4_Events.PLAYER_DIED,
         ]);
     }
 
@@ -329,6 +338,25 @@ export default class GameLevel extends Scene {
                 }
             ]
         });
+        this.player.tweens.add("death", {
+            startDelay: 0,
+            duration: 500,
+            effects: [
+                {
+                    property: "rotation",
+                    start: 0,
+                    end: 16*Math.PI,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                },
+                {
+                    property: "ScaleX",
+                    start: 2,
+                    end: 0,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                }
+            ],
+            onEnd: HW4_Events.PLAYER_DIED
+        });
 
         this.viewport.follow(this.player);
     }
@@ -361,6 +389,7 @@ export default class GameLevel extends Scene {
         enemy.position.set(tilePos.x*32, tilePos.y*32);
         enemy.scale.set(2, 2);
         enemy.addPhysics();
+        enemy.setTrigger("player", HW4_Events.PLAYER_HIT_ENEMY, null);
         enemy.addAI(EnemyController, aiOptions);
         enemy.setGroup("enemy");
     }
@@ -395,7 +424,33 @@ export default class GameLevel extends Scene {
      * 
      * You can implement this method using whatever math you see fit.
      */
-    protected handlePlayerEnemyCollision(player: AnimatedSprite, enemy: AnimatedSprite) {}
+    protected handlePlayerEnemyCollision(player: AnimatedSprite, enemy: AnimatedSprite) {
+        //console.log(enemy.imageId)
+        if(enemy.imageId == "GhostBunny"){
+            if(player.boundary.center.y - 50 < enemy.boundary.center.y){
+                enemy.disablePhysics();
+                enemy.animation.play("DYING", false, HW4_Events.ENEMY_DIED);
+                // HOMEWORK 4 - TODO
+                // add sound
+            } else {
+                this.player.disablePhysics();
+                this.player.tweens.play("death");
+            }
+        } else if(enemy.imageId == "Hopper"){
+            if(player.boundary.center.y + 50 > enemy.boundary.center.y){
+                enemy.disablePhysics();
+                enemy.animation.play("DYING", false, HW4_Events.ENEMY_DIED);
+                // HOMEWORK 4 - TODO
+                // add sound
+            } else {
+                this.player.disablePhysics();
+                this.player.tweens.play("death");
+            }
+        } else if(enemy.imageId == "spikeball"){
+            this.player.disablePhysics();
+            this.player.tweens.play("death");
+        }
+    }
 
     /**
      * Increments the amount of life the player has
