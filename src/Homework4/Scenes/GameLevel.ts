@@ -77,7 +77,7 @@ export default class GameLevel extends Scene {
         Input.disableInput();
     }
 
-    // HOMEWORK 4 - TODO
+    // HOMEWORK 4 - TODO - DONE
     /**
      * Provide a proper death animation for the player character.
      * Use tweens to achieve this goal.
@@ -371,7 +371,7 @@ export default class GameLevel extends Scene {
         this.levelEndArea.color = new Color(0, 0, 0, 0);
     }
 
-    // HOMEWORK 4 - TODO
+    // HOMEWORK 4 - TODO - DONE
     /*
         Make sure enemies are being set up properly to have triggers so that when they collide
         with players, they send out a trigger event.
@@ -394,7 +394,7 @@ export default class GameLevel extends Scene {
         enemy.setGroup("enemy");
     }
 
-    // HOMEWORK 4 - TODO
+    // HOMEWORK 4 - TODO - DONE
     /**
      * You must implement this method.
      * There are 3 types of collisions:
@@ -432,9 +432,11 @@ export default class GameLevel extends Scene {
                 console.log(enemy.boundary.center.y)
                 enemy.disablePhysics();
                 enemy.animation.play("DYING", false, HW4_Events.ENEMY_DIED);
-                // HOMEWORK 4 - TODO
+                // HOMEWORK 4 - TODO - DONE
                 // add sound
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bunny_dying"});
             } else {
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "hopper_dying"});
                 console.log(player.boundary.center.y)
                 console.log(enemy.boundary.center.y)
                 this.player.disablePhysics();
@@ -446,15 +448,18 @@ export default class GameLevel extends Scene {
                 console.log(enemy.boundary.center.y)
                 enemy.disablePhysics();
                 enemy.animation.play("DYING", false, HW4_Events.ENEMY_DIED);
-                // HOMEWORK 4 - TODO
+                // HOMEWORK 4 - TODO - DONE
                 // add sound
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "hopper_dying"});
             } else {
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "hopper_dying"});
                 console.log(player.boundary.center.y)
                 console.log(enemy.boundary.center.y)
                 this.player.disablePhysics();
                 this.player.tweens.play("death");
             }
         } else if(enemy.imageId == "spikeball"){
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "hopper_dying"});
             console.log(player.boundary.center.y)
             console.log(enemy.boundary.center.y)
             this.player.disablePhysics();

@@ -1,3 +1,4 @@
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Debug from "../../Wolfie2D/Debug/Debug";
 import GameLevel from "./GameLevel";
@@ -17,9 +18,12 @@ export default class Level1 extends GameLevel {
         this.load.audio("jump", "hw4_assets/sounds/jump.wav");
         this.load.audio("coin", "hw4_assets/sounds/coin.wav");
         this.load.audio("player_death", "hw4_assets/sounds/player_death.wav");
+        this.load.audio("gameplay", "hw4_assets/music/gameplay.mp3");
+        this.load.audio("hopper_dying", "hw4_assets/sounds/hopper_dying.wav");
+        this.load.audio("bunny_dying", "hw4_assets/sounds/bunny_dying.wav");
     }
 
-    // HOMEWORK 4 - TODO
+    // HOMEWORK 4 - TODO - DONE
     /**
      * Decide which resource to keep and which to cull.
      * 
@@ -36,12 +40,15 @@ export default class Level1 extends GameLevel {
         this.load.image("background", "hw4_assets/sprites/2bitbackground.png");
         this.load.image("coin", "hw4_assets/sprites/coin.png");
         this.load.spritesheet("player", "hw4_assets/spritesheets/platformPlayer.json");
-        this.load.spritesheet("spikeball", "hw4_assets/spritesheets/spikeball.json")
+        //this.load.spritesheet("spikeball", "hw4_assets/spritesheets/spikeball.json")
         this.load.spritesheet("hopper", "hw4_assets/spritesheets/hopper.json");
         this.load.spritesheet("bunny", "hw4_assets/spritesheets/ghostBunny.json");
         this.load.audio("jump", "hw4_assets/sounds/jump.wav");
         this.load.audio("coin", "hw4_assets/sounds/coin.wav");
         this.load.audio("player_death", "hw4_assets/sounds/player_death.wav");
+        this.load.audio("gameplay", "hw4_assets/music/gameplay.mp3");
+        this.load.audio("hopper_dying", "hw4_assets/sounds/hopper_dying.wav");
+        this.load.audio("bunny_dying", "hw4_assets/sounds/bunny_dying.wav");
     }
 
     startScene(): void {
@@ -61,6 +68,7 @@ export default class Level1 extends GameLevel {
         super.startScene();
 
         this.addLevelEnd(new Vec2(58, 17), new Vec2(2, 2));
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "gameplay", loop: true, holdReference: true});
 
         this.nextLevel = Level2;
 

@@ -3,7 +3,7 @@ import Debug from "../../Wolfie2D/Debug/Debug";
 import GameLevel from "./GameLevel";
 
 export default class Level2 extends GameLevel {
-    // HOMEWORK 4 - TODO
+    // HOMEWORK 4 - TODO - DONE
     /**
      * Decide which resource to keep and which to cull.
      * 
