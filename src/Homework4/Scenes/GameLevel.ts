@@ -427,26 +427,36 @@ export default class GameLevel extends Scene {
     protected handlePlayerEnemyCollision(player: AnimatedSprite, enemy: AnimatedSprite) {
         //console.log(enemy.imageId)
         if(enemy.imageId == "GhostBunny"){
-            if(player.boundary.center.y - 50 < enemy.boundary.center.y){
+            if(player.boundary.center.y - 0 < enemy.boundary.center.y){
+                console.log(player.boundary.center.y)
+                console.log(enemy.boundary.center.y)
                 enemy.disablePhysics();
                 enemy.animation.play("DYING", false, HW4_Events.ENEMY_DIED);
                 // HOMEWORK 4 - TODO
                 // add sound
             } else {
+                console.log(player.boundary.center.y)
+                console.log(enemy.boundary.center.y)
                 this.player.disablePhysics();
                 this.player.tweens.play("death");
             }
         } else if(enemy.imageId == "Hopper"){
-            if(player.boundary.center.y + 50 > enemy.boundary.center.y){
+            if(player.boundary.center.y + 0 > enemy.boundary.center.y){
+                console.log(player.boundary.center.y)
+                console.log(enemy.boundary.center.y)
                 enemy.disablePhysics();
                 enemy.animation.play("DYING", false, HW4_Events.ENEMY_DIED);
                 // HOMEWORK 4 - TODO
                 // add sound
             } else {
+                console.log(player.boundary.center.y)
+                console.log(enemy.boundary.center.y)
                 this.player.disablePhysics();
                 this.player.tweens.play("death");
             }
         } else if(enemy.imageId == "spikeball"){
+            console.log(player.boundary.center.y)
+            console.log(enemy.boundary.center.y)
             this.player.disablePhysics();
             this.player.tweens.play("death");
         }
