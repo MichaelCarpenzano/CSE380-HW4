@@ -59,25 +59,6 @@ export default class PlayerController extends StateMachineAI {
         this.coin = this.owner.getScene().add.sprite("coin", "coinLayer");
         this.coin.position.set(-100, -100);
         this.coin.scale.set(2, 2);
-        this.coin.tweens.add("collect", {
-            startDelay: 0,
-            duration: 500,
-            effects: [
-                {
-                    property: TweenableProperties.posY,
-                    start: this.owner.position.y,
-                    end: -800,
-                    ease: EaseFunctionType.OUT_SINE
-                },
-                {
-                    property: TweenableProperties.posX,
-                    start: this.owner.position.x,
-                    end: this.owner.position.x,
-                    ease: EaseFunctionType.OUT_SINE
-                }
-            ],
-            onEnd: HW4_Events.PLAYER_HIT_COIN_BLOCK
-        });
     }
 
     initializePlatformer(): void {
@@ -114,6 +95,39 @@ export default class PlayerController extends StateMachineAI {
             console.log("hit ceil");
             //console.log(this.tilemap.getTileAtRowCol(new Vec2(this.tilemap.getColRowAt(this.owner.position).x, this.tilemap.getColRowAt(this.owner.position).y-1)));
             if(this.tilemap.getTileAtRowCol(new Vec2(this.tilemap.getColRowAt(this.owner.position).x, this.tilemap.getColRowAt(this.owner.position).y-1)) == 17){
+                
+                this.coin.tweens.add("collect", {
+                    startDelay: 0,
+                    duration: 500,
+                    effects: [
+                        {
+                            property: TweenableProperties.posY,
+                            start: this.owner.position.y,
+                            end: this.owner.position.y - 150,
+                            ease: EaseFunctionType.OUT_SINE
+                        },
+                        {
+                            property: TweenableProperties.posX,
+                            start: this.owner.position.x,
+                            end: this.owner.position.x,
+                            ease: EaseFunctionType.OUT_SINE
+                        },
+                        {
+                            property: "rotation",
+                            start: 0,
+                            end: 2*Math.PI,
+                            ease: EaseFunctionType.IN_OUT_QUAD
+                        },
+                        {
+                            property: TweenableProperties.alpha,
+                            start: 1,
+                            end: 0,
+                            ease: EaseFunctionType.IN_OUT_QUAD
+                        }
+                    ],
+                    onEnd: HW4_Events.PLAYER_HIT_COIN_BLOCK
+                });
+                
                 console.log("hit block");
                 this.coin.tweens.play("collect");
                 this.tilemap.setTileAtRowCol(new Vec2(this.tilemap.getColRowAt(this.owner.position).x, this.tilemap.getColRowAt(this.owner.position).y-1), 18);
