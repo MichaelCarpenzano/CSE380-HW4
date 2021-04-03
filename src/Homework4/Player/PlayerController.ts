@@ -43,7 +43,7 @@ export default class PlayerController extends StateMachineAI {
 
         this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
 
-        // HOMEWORK 4 - TODO
+        // HOMEWORK 4 - TODO - DONE
         /*
             Use this coin sprite to perform an animation when the player hits a coin block.
 

@@ -8,9 +8,12 @@ import OnGround from "./OnGround";
  * The idle enemy state. Enemies don't do anything until the player comes near them. 
  */
 export default class Idle extends OnGround {
+	time: number;
+
 	onEnter(): void {
 		this.parent.speed = this.parent.speed;
 		(<AnimatedSprite>this.owner).animation.play("IDLE", true);
+		this.time = Date.now();
 	}
 
 	onExit(): Record<string, any> {
@@ -21,10 +24,15 @@ export default class Idle extends OnGround {
 	handleInput(event: GameEvent) {
 		if(event.type === HW4_Events.PLAYER_MOVE){
 			let pos = event.data.get("position");
-			if(this.owner.position.x - pos.x < (64*10)){
+			if(this.owner.position.x - pos.x < (64*10) && !(this.parent.agro)){
 				this.finished(EnemyStates.WALK);
 			}
 		}
+		if(this.parent.agro && (Date.now() - this.time > 500)){
+			this.finished(EnemyStates.JUMP);
+			this.parent.velocity.y = -300;
+		}
+
 	}
 
 	update(deltaT: number): void {

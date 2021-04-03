@@ -32,6 +32,7 @@ export enum EnemyStates {
 export default class EnemyController extends StateMachineAI {
 	owner: GameNode;
 	jumpy: boolean;
+	agro: boolean;
 	direction: Vec2 = Vec2.ZERO;
 	velocity: Vec2 = Vec2.ZERO;
 	speed: number = 200;
@@ -39,9 +40,30 @@ export default class EnemyController extends StateMachineAI {
 	initializeAI(owner: GameNode, options: Record<string, any>){
 		this.owner = owner;
 		this.jumpy = options.jumpy ? options.jumpy : false;
+		this.agro = options.agro ? options.agro : false;
 
 		this.receiver.subscribe(HW4_Events.PLAYER_MOVE);
 		if(this.jumpy){
+			this.receiver.subscribe(HW4_Events.PLAYER_JUMP);
+			this.speed = 100;
+
+			// Give the owner a tween for the jump
+			owner.tweens.add("jump", {
+                startDelay: 0,
+                duration: 300,
+                effects: [
+                    {
+                        property: "rotation",
+                        resetOnComplete: true,
+                        start: -3.14/8,
+                        end: 3.14/8,
+                        ease: EaseFunctionType.IN_OUT_SINE
+                    }
+                ],
+                reverseOnComplete: true,
+            });
+		}
+		if(this.agro){
 			this.receiver.subscribe(HW4_Events.PLAYER_JUMP);
 			this.speed = 100;
 

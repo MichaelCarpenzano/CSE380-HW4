@@ -43,7 +43,7 @@ export default class Level2 extends GameLevel {
             The exact implementation is up to you though.
         */
         for(let pos of [new Vec2(44, 18), new Vec2(48, 17)]){
-            this.addEnemy("spikeball", pos, {});
+            this.addEnemy("spikeball", pos, {agro: true});
         }
 
         for(let pos of [new Vec2(33, 18)]){
