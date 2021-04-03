@@ -1,15 +1,17 @@
 import StateMachineAI from "../../Wolfie2D/AI/StateMachineAI";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Debug from "../../Wolfie2D/Debug/Debug";
-import GameNode from "../../Wolfie2D/Nodes/GameNode";
+import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
+import { HW4_Events } from "../hw4_enums";
 import Fall from "./PlayerStates/Fall";
 import Idle from "./PlayerStates/Idle";
 import InAir from "./PlayerStates/InAir";
 import Jump from "./PlayerStates/Jump";
 import Run from "./PlayerStates/Run";
 import Walk from "./PlayerStates/Walk";
+import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 
 export enum PlayerType {
     PLATFORMER = "platformer",
@@ -57,6 +59,25 @@ export default class PlayerController extends StateMachineAI {
         this.coin = this.owner.getScene().add.sprite("coin", "coinLayer");
         this.coin.position.set(-100, -100);
         this.coin.scale.set(2, 2);
+        this.coin.tweens.add("collect", {
+            startDelay: 0,
+            duration: 500,
+            effects: [
+                {
+                    property: TweenableProperties.posY,
+                    start: this.owner.position.y,
+                    end: -800,
+                    ease: EaseFunctionType.OUT_SINE
+                },
+                {
+                    property: TweenableProperties.posX,
+                    start: this.owner.position.x,
+                    end: this.owner.position.x,
+                    ease: EaseFunctionType.OUT_SINE
+                }
+            ],
+            onEnd: HW4_Events.PLAYER_HIT_COIN_BLOCK
+        });
     }
 
     initializePlatformer(): void {
@@ -89,7 +110,15 @@ export default class PlayerController extends StateMachineAI {
     update(deltaT: number): void {
 		super.update(deltaT);
 
-        
+        if(this.owner.onCeiling){
+            console.log("hit ceil");
+            //console.log(this.tilemap.getTileAtRowCol(new Vec2(this.tilemap.getColRowAt(this.owner.position).x, this.tilemap.getColRowAt(this.owner.position).y-1)));
+            if(this.tilemap.getTileAtRowCol(new Vec2(this.tilemap.getColRowAt(this.owner.position).x, this.tilemap.getColRowAt(this.owner.position).y-1)) == 17){
+                console.log("hit block");
+                this.coin.tweens.play("collect");
+                this.tilemap.setTileAtRowCol(new Vec2(this.tilemap.getColRowAt(this.owner.position).x, this.tilemap.getColRowAt(this.owner.position).y-1), 18);
+            }
+        }
 
 		if(this.currentState instanceof Jump){
 			Debug.log("playerstate", "Player State: Jump");
